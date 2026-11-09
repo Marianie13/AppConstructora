@@ -35,7 +35,7 @@ public class DataInitializer {
                     "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800");
             Proyecto p3 = crearProyecto("Campestre La Pradera", "Lotes campestres para construir la casa de tus sueños.",
                     "Cali", "Km 5 Vía Cali-Jamundí", new BigDecimal("150000000"), EstadoProyecto.EN_PLANOS, false,
-                    "https://images.unsplash.com/photo-1600047509807-ba8f99d2cd2e?w=800");
+                    "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800");
 
             p1 = proyectoRepository.save(p1);
             p2 = proyectoRepository.save(p2);
@@ -46,7 +46,7 @@ public class DataInitializer {
                     "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800"));
             viviendaRepository.save(crearVivienda("Casa Tipo B", TipoVivienda.CASA, 4, 3, 150.0,
                     new BigDecimal("380000000"), true, p1,
-                    "https://images.unsplash.com/photo-1605276374101-de4c0a9ecd6a?w=800"));
+                    "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800"));
             viviendaRepository.save(crearVivienda("Apartamento 801", TipoVivienda.APARTAMENTO, 2, 2, 75.0,
                     new BigDecimal("350000000"), true, p2,
                     "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800"));
