@@ -23,7 +23,7 @@ La aplicación tiene tres capas independientes que se comunican por HTTP:
 
 | Carpeta | Contenido |
 |---|---|
-| `1_base_de_datos/` | Scripts SQL: esquema, datos de prueba y consultas de verificación |
+| `1_base_de_datos/` | Scripts SQL: esquema, datos de prueba, consultas de verificación y el export completo de la base |
 | `2_backend/` | API REST en Spring Boot 3.2 + Java 17 + JPA/Hibernate |
 | `3_frontend/` | Interfaz web original (React 18 + Vite + Tailwind CSS) |
 | `4_frontend_modificado/` | La misma interfaz con el rediseño propio (tema oscuro "Habita") |
