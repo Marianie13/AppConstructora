@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-carbon-950 text-carbon-100 font-sans antialiased;
+    background-image:
+      radial-gradient(60rem 40rem at 15% -10%, rgba(207, 168, 74, 0.10), transparent 60%),
+      radial-gradient(50rem 35rem at 90% 0%, rgba(207, 168, 74, 0.06), transparent 60%);
+    background-attachment: fixed;
+    color: #e8e6e1;
+  }
+
+  h1, h2, h3 {
+    @apply font-display;
+  }
+
+  ::selection {
+    background: rgba(207, 168, 74, 0.3);
+  }
+}
+
+@layer components {
+  /* Linea dorada fina que separa secciones */
+  .regla-oro {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-oro-400/50 to-transparent;
+  }
+
+  /* Etiqueta pequena en mayusculas con tracking amplio */
+  .eyebrow {
+    @apply text-[0.68rem] uppercase tracking-marca text-oro-300 font-medium;
+  }
+}
+
+/* Barra de desplazamiento al tono del tema */
+::-webkit-scrollbar {
+  width: 11px;
+}
+::-webkit-scrollbar-track {
+  background: #121216;
+}
+::-webkit-scrollbar-thumb {
+  background: #32323c;
+  border-radius: 99px;
+  border: 3px solid #121216;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b8902f;
+}
