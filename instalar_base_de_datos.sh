@@ -15,9 +15,11 @@ set -e
 MYSQL="/usr/local/mysql/bin/mysql"
 DIR="$(cd "$(dirname "$0")" && pwd)"
 
-# Usuario que va a usar el backend (clave de desarrollo, no es la de root)
+# Usuario que va a usar el backend. La clave se genera al azar en cada
+# instalacion y se guarda unicamente en 2_backend/local.properties,
+# que esta excluido del repositorio.
 APP_USER="constructora_app"
-APP_PASS="Constructora2026"
+APP_PASS="$(LC_ALL=C tr -dc 'A-Za-z0-9' < /dev/urandom | head -c 24)"
 
 if [ ! -x "$MYSQL" ]; then
   echo "No encuentro MySQL en $MYSQL"

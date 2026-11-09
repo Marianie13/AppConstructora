@@ -8,3 +8,6 @@ dist/
 
 # Sistema
 .DS_Store
+
+# Credenciales locales (nunca subir)
+local.properties

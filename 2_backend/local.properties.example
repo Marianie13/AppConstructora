@@ -1,0 +1,5 @@
+# Copia este archivo como "local.properties" (sin .example) y pon
+# ahi las credenciales de TU base de datos local.
+# local.properties no se sube al repositorio.
+DB_USER=constructora_app
+DB_PASSWORD=cambia_esto_por_tu_clave

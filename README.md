@@ -161,6 +161,21 @@ El script pide la clave de root de MySQL, crea la base `constructora_db`, las
 tablas, los datos de prueba, el usuario `constructora_app` que usa el backend y
 muestra las consultas de verificación.
 
+La clave de ese usuario se genera al azar en cada instalación y queda guardada
+únicamente en `2_backend/local.properties`, un archivo excluido del repositorio
+por `.gitignore`. El backend lo lee al arrancar. Por eso **no hay ninguna
+contraseña escrita en el código**.
+
+Si MySQL nunca ha funcionado en el equipo o se perdió la clave de root, usar en
+su lugar:
+
+```bash
+sudo bash reparar_mysql.sh
+```
+
+Ese script restablece la clave de root y deja la base instalada en una sola
+pasada.
+
 > Alternativa manual (MySQL Workbench): ejecutar en orden
 > `01_app_constructora_schema.sql`, `02_app_constructora_datos.sql` y
 > `03_consultas_verificacion.sql`, y ajustar usuario y clave en
@@ -206,7 +221,13 @@ Para ver la versión rediseñada, usar `4_frontend_modificado` en lugar de
   las tablas creadas por el script SQL, pero nunca modifica el esquema. Así la
   base de datos es la fuente de verdad y no se altera sola.
 - **Usuario de base de datos dedicado** (`constructora_app`) con permisos solo
-  sobre `constructora_db`, en vez de usar `root`.
+  sobre `constructora_db`, en vez de usar `root`. Su clave se genera al azar y
+  vive en `local.properties`, fuera del control de versiones.
+- **Enums como `VARCHAR`**: `@JdbcTypeCode(SqlTypes.VARCHAR)` en `Proyecto.estado`
+  y `Vivienda.tipo`. Hibernate 6 usaría por defecto el tipo `ENUM` nativo de
+  MySQL, que es rígido: agregar una constante al enum obliga a un `ALTER TABLE`.
+- **`characterEncoding=UTF-8`** en la URL de JDBC, para que las tildes viajen
+  correctamente entre la aplicación y la base de datos.
 - **CORS configurado** en `config/CorsConfig.java` para permitir las peticiones
   desde `http://localhost:5173`, el puerto del frontend.
 - **Colecciones genéricas** `List<Vivienda>` y `List<ClienteInteresado>`
