@@ -1,6 +1,5 @@
 {
   "folders": [
-    { "name": "0 · Documentación",      "path": "0_documentacion" },
     { "name": "1 · Base de datos",       "path": "1_base_de_datos" },
     { "name": "2 · Backend (Java)",      "path": "2_backend" },
     { "name": "3 · Frontend original",   "path": "3_frontend" },

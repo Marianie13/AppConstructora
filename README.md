@@ -28,7 +28,6 @@ La aplicación tiene tres capas independientes que se comunican por HTTP:
 | `3_frontend/` | Interfaz web original (React 18 + Vite + Tailwind CSS) |
 | `4_frontend_modificado/` | La misma interfaz con el rediseño propio (tema oscuro "Habita") |
 | `instalar_base_de_datos.sh` | Script que crea la base de datos de un solo paso |
-| `0_documentacion/` | Guía de ejecución y guion de los videos de sustentación |
 
 ---
 
