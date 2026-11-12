@@ -2,9 +2,8 @@
   // Hace que la extension de Java relea el pom.xml automaticamente
   // cuando cambia, sin tener que importarlo a mano.
   "java.configuration.updateBuildConfiguration": "automatic",
+  "java.jdt.ls.lombokSupport.enabled": true,
 
-  // Lombok genera los getters y setters al compilar. Sin esto, el editor
-  // avisa de campos "no usados" que si se usan.
   "java.compile.nullAnalysis.mode": "disabled",
 
   // Evita que resalte las tildes y la enie como caracteres sospechosos.

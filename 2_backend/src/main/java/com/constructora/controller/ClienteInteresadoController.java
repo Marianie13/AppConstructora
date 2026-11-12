@@ -4,7 +4,6 @@ import com.constructora.dto.ClienteInteresadoRequestDTO;
 import com.constructora.dto.ClienteInteresadoResponseDTO;
 import com.constructora.service.ClienteInteresadoService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +12,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/clientes-interesados")
-@RequiredArgsConstructor
 public class ClienteInteresadoController {
 
     private final ClienteInteresadoService clienteInteresadoService;
+
+    public ClienteInteresadoController(ClienteInteresadoService clienteInteresadoService) {
+        this.clienteInteresadoService = clienteInteresadoService;
+    }
 
     @GetMapping
     public ResponseEntity<List<ClienteInteresadoResponseDTO>> obtenerTodos() {

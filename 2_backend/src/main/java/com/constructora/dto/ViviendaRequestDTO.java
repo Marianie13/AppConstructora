@@ -4,13 +4,9 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
 import java.math.BigDecimal;
 import com.constructora.enums.TipoVivienda;
 
-@Getter
-@Setter
 public class ViviendaRequestDTO {
     @NotBlank(message = "El título es obligatorio")
     private String titulo;
@@ -37,4 +33,31 @@ public class ViviendaRequestDTO {
 
     @NotNull(message = "El proyecto es obligatorio")
     private Long proyectoId;
+
+    public String getTitulo() { return titulo; }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
+
+    public TipoVivienda getTipo() { return tipo; }
+    public void setTipo(TipoVivienda tipo) { this.tipo = tipo; }
+
+    public Integer getHabitaciones() { return habitaciones; }
+    public void setHabitaciones(Integer habitaciones) { this.habitaciones = habitaciones; }
+
+    public Integer getBanos() { return banos; }
+    public void setBanos(Integer banos) { this.banos = banos; }
+
+    public Double getArea() { return area; }
+    public void setArea(Double area) { this.area = area; }
+
+    public BigDecimal getPrecio() { return precio; }
+    public void setPrecio(BigDecimal precio) { this.precio = precio; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public Boolean getDisponible() { return disponible; }
+    public void setDisponible(Boolean disponible) { this.disponible = disponible; }
+
+    public Long getProyectoId() { return proyectoId; }
+    public void setProyectoId(Long proyectoId) { this.proyectoId = proyectoId; }
 }

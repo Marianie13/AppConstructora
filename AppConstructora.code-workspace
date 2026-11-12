@@ -1,13 +1,15 @@
 {
   "folders": [
+    { "name": "0 · Documentación",      "path": "0_documentacion" },
     { "name": "1 · Base de datos",       "path": "1_base_de_datos" },
     { "name": "2 · Backend (Java)",      "path": "2_backend" },
     { "name": "3 · Frontend original",   "path": "3_frontend" },
-    { "name": "4 · Frontend modificado", "path": "4_frontend_modificado" },
-    { "name": "· Documentación",         "path": "." }
+    { "name": "4 · Frontend modificado", "path": "4_frontend_modificado" }
   ],
   "settings": {
     "java.configuration.updateBuildConfiguration": "automatic",
+    "java.jdt.ls.lombokSupport.enabled": true,
+    "java.import.exclusions": ["**/node_modules/**", "**/target/**", "**/dist/**"],
     "java.compile.nullAnalysis.mode": "disabled",
     "editor.unicodeHighlight.ambiguousCharacters": false,
     "editor.unicodeHighlight.nonBasicASCII": false,
