@@ -1,0 +1,25 @@
+{
+  "folders": [
+    { "name": "1 · Base de datos",       "path": "1_base_de_datos" },
+    { "name": "2 · Backend (Java)",      "path": "2_backend" },
+    { "name": "3 · Frontend original",   "path": "3_frontend" },
+    { "name": "4 · Frontend modificado", "path": "4_frontend_modificado" },
+    { "name": "· Documentación",         "path": "." }
+  ],
+  "settings": {
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.compile.nullAnalysis.mode": "disabled",
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.unicodeHighlight.nonBasicASCII": false,
+    "editor.minimap.enabled": false,
+    "files.exclude": {
+      "**/target": true,
+      "**/node_modules": true,
+      "**/dist": true
+    }
+  },
+  "extensions": {
+    "recommendations": ["redhat.java", "vscjava.vscode-java-pack"],
+    "unwantedRecommendations": ["georgewfraser.vscode-javac"]
+  }
+}
