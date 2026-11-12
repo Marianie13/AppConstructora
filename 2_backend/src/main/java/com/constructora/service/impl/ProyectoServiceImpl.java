@@ -7,21 +7,18 @@ import com.constructora.exception.ResourceNotFoundException;
 import com.constructora.mapper.ProyectoMapper;
 import com.constructora.repository.ProyectoRepository;
 import com.constructora.service.ProyectoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProyectoServiceImpl implements ProyectoService {
 
     private final ProyectoRepository proyectoRepository;
     private final ProyectoMapper mapper;
-
-    public ProyectoServiceImpl(ProyectoRepository proyectoRepository, ProyectoMapper mapper) {
-        this.proyectoRepository = proyectoRepository;
-        this.mapper = mapper;
-    }
 
     @Override
     public List<ProyectoResponseDTO> obtenerTodos() {

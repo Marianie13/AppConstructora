@@ -4,6 +4,7 @@ import com.constructora.dto.ViviendaRequestDTO;
 import com.constructora.dto.ViviendaResponseDTO;
 import com.constructora.service.ViviendaService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/viviendas")
+@RequiredArgsConstructor
 public class ViviendaController {
 
     private final ViviendaService viviendaService;
-
-    public ViviendaController(ViviendaService viviendaService) {
-        this.viviendaService = viviendaService;
-    }
 
     @GetMapping
     public ResponseEntity<List<ViviendaResponseDTO>> obtenerTodas() {

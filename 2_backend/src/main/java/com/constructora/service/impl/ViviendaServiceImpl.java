@@ -9,25 +9,19 @@ import com.constructora.mapper.ViviendaMapper;
 import com.constructora.repository.ProyectoRepository;
 import com.constructora.repository.ViviendaRepository;
 import com.constructora.service.ViviendaService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ViviendaServiceImpl implements ViviendaService {
 
     private final ViviendaRepository viviendaRepository;
     private final ProyectoRepository proyectoRepository;
     private final ViviendaMapper mapper;
-
-    public ViviendaServiceImpl(ViviendaRepository viviendaRepository,
-                               ProyectoRepository proyectoRepository,
-                               ViviendaMapper mapper) {
-        this.viviendaRepository = viviendaRepository;
-        this.proyectoRepository = proyectoRepository;
-        this.mapper = mapper;
-    }
 
     private Proyecto verificarProyecto(Long proyectoId) {
         return proyectoRepository.findById(proyectoId)
