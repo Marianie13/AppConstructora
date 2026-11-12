@@ -9,17 +9,17 @@ import AdminClientes from './pages/AdminClientes';
 import AdminProyectos from './pages/AdminProyectos';
 import AdminViviendas from './pages/AdminViviendas';
 
-const enlacesPublicos = [
-  { to: '/', texto: 'Inicio' },
+const publicos = [
+  { to: '/',          texto: 'Inicio' },
   { to: '/proyectos', texto: 'Proyectos' },
   { to: '/viviendas', texto: 'Viviendas' },
-  { to: '/contacto', texto: 'Contacto' },
+  { to: '/contacto',  texto: 'Contacto' },
 ];
 
-const enlacesAdmin = [
+const admin = [
   { to: '/admin-proyectos', texto: 'Proyectos' },
   { to: '/admin-viviendas', texto: 'Viviendas' },
-  { to: '/admin-clientes', texto: 'Clientes' },
+  { to: '/admin-clientes',  texto: 'Clientes' },
 ];
 
 function Enlace({ to, children }) {
@@ -27,10 +27,8 @@ function Enlace({ to, children }) {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        'relative text-[0.76rem] uppercase tracking-[0.17em] transition-colors duration-300 py-1 ' +
-        (isActive
-          ? 'text-oro-300 after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:bg-oro-400'
-          : 'text-white/55 hover:text-white')
+        'font-mono text-rotulo uppercase transition-colors duration-300 ' +
+        (isActive ? 'text-terracota-400' : 'text-hueso-300 hover:text-hueso-50')
       }
     >
       {children}
@@ -39,50 +37,50 @@ function Enlace({ to, children }) {
 }
 
 export default function App() {
-  // Menu de administracion plegable: elemento nuevo respecto a la version base.
-  const [adminAbierto, setAdminAbierto] = useState(false);
+  const [abierto, setAbierto] = useState(false);
 
   return (
     <Router>
       <div className="min-h-screen flex flex-col">
-        <header className="sticky top-0 z-50 bg-carbon-950/85 backdrop-blur-md border-b border-white/[0.07]">
-          <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-            <Link to="/" className="flex flex-col leading-none group">
-              <span className="font-display text-2xl text-white tracking-wide group-hover:text-oro-200 transition-colors duration-300">
+
+        <header className="sticky top-0 z-50 bg-tinta-950/90 backdrop-blur-sm border-b border-hueso-100/[0.10]">
+          <div className="max-w-contenido mx-auto px-6 lg:px-10 h-[4.5rem] flex items-center justify-between gap-8">
+            {/* La marca: tipografía apretada, sin logo ni emoji. */}
+            <Link to="/" className="flex items-baseline gap-3 group shrink-0">
+              <span className="text-2xl font-display font-semibold tracking-[-0.04em] text-hueso-50
+                               group-hover:text-terracota-300 transition-colors duration-300">
                 Habita
               </span>
-              <span className="text-[0.56rem] uppercase tracking-marca text-oro-400/80 mt-1">
-                Constructora
-              </span>
+              <span className="hidden sm:block rotulo">Constructora</span>
             </Link>
 
             <nav className="hidden md:flex items-center gap-9">
-              {enlacesPublicos.map(e => (
-                <Enlace key={e.to} to={e.to}>{e.texto}</Enlace>
-              ))}
+              {publicos.map(e => <Enlace key={e.to} to={e.to}>{e.texto}</Enlace>)}
 
-              <div className="relative">
+              <div className="relative pl-9 border-l border-hueso-100/[0.10]">
                 <button
-                  onClick={() => setAdminAbierto(v => !v)}
-                  className="text-[0.76rem] uppercase tracking-[0.17em] text-white/45 hover:text-oro-300
-                             border border-white/10 px-3 py-1.5 transition-colors duration-300"
+                  onClick={() => setAbierto(v => !v)}
+                  className="font-mono text-rotulo uppercase text-hueso-400 hover:text-terracota-300
+                             transition-colors duration-300 flex items-center gap-2"
                 >
-                  Administración
+                  Gestión
+                  <span className={`transition-transform duration-300 ${abierto ? 'rotate-45' : ''}`}>+</span>
                 </button>
-                {adminAbierto && (
+                {abierto && (
                   <div
-                    className="absolute right-0 mt-2 w-48 bg-carbon-900 border border-white/10 shadow-2xl"
-                    onMouseLeave={() => setAdminAbierto(false)}
+                    className="absolute right-0 top-9 w-52 bg-tinta-900 border border-hueso-100/[0.10]"
+                    onMouseLeave={() => setAbierto(false)}
                   >
-                    {enlacesAdmin.map(e => (
+                    {admin.map((e, i) => (
                       <NavLink
                         key={e.to}
                         to={e.to}
-                        onClick={() => setAdminAbierto(false)}
-                        className="block px-4 py-3 text-[0.74rem] uppercase tracking-[0.14em] text-white/60
-                                   hover:text-oro-300 hover:bg-white/[0.03] border-b border-white/5 last:border-0
-                                   transition-colors duration-200"
+                        onClick={() => setAbierto(false)}
+                        className="flex items-center gap-4 px-5 py-4 font-mono text-rotulo uppercase
+                                   text-hueso-300 hover:text-terracota-300 hover:bg-hueso-100/[0.03]
+                                   border-b border-hueso-100/[0.07] last:border-0 transition-colors duration-200"
                       >
+                        <span className="text-hueso-500">0{i + 1}</span>
                         {e.texto}
                       </NavLink>
                     ))}
@@ -91,16 +89,13 @@ export default function App() {
               </div>
             </nav>
 
-            {/* Navegacion compacta para pantallas pequenas */}
             <nav className="flex md:hidden gap-5">
-              {enlacesPublicos.map(e => (
-                <Enlace key={e.to} to={e.to}>{e.texto.slice(0, 4)}</Enlace>
-              ))}
+              {publicos.map(e => <Enlace key={e.to} to={e.to}>{e.texto.slice(0, 3)}</Enlace>)}
             </nav>
           </div>
         </header>
 
-        <main className="max-w-6xl mx-auto px-6 py-14 flex-grow w-full">
+        <main className="max-w-contenido mx-auto px-6 lg:px-10 w-full flex-grow py-16 lg:py-24">
           <Routes>
             <Route path="/" element={<Inicio />} />
             <Route path="/proyectos" element={<Proyectos />} />
@@ -113,35 +108,46 @@ export default function App() {
           </Routes>
         </main>
 
-        <footer className="border-t border-white/[0.07] bg-carbon-900/50">
-          <div className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div className="flex flex-col gap-3">
-              <span className="font-display text-xl text-white">Habita Constructora</span>
-              <p className="text-xs text-white/40 leading-relaxed max-w-xs">
-                Proyectos inmobiliarios con estándares de alta construcción en Bogotá,
-                Medellín y Cali.
+        <footer className="border-t border-hueso-100/[0.10] mt-10">
+          <div className="max-w-contenido mx-auto px-6 lg:px-10 py-16
+                          grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-12">
+            <div className="md:col-span-5">
+              <span className="text-3xl font-display font-semibold tracking-[-0.04em] text-hueso-50">
+                Habita
+              </span>
+              <p className="mt-5 max-w-xs text-sm leading-relaxed text-hueso-400">
+                Proyectos residenciales en Bogotá, Medellín y Cali. Arquitectura,
+                luz y detalle a favor de quien los habita.
               </p>
             </div>
-            <div className="flex flex-col gap-3">
-              <span className="eyebrow">Navegación</span>
-              {enlacesPublicos.map(e => (
-                <Link key={e.to} to={e.to} className="text-xs text-white/45 hover:text-oro-300 transition-colors">
-                  {e.texto}
-                </Link>
-              ))}
+
+            <div className="md:col-span-3 flex flex-col gap-4">
+              <span className="rotulo">Navegación</span>
+              <div className="flex flex-col gap-3">
+                {publicos.map(e => (
+                  <Link key={e.to} to={e.to}
+                        className="text-sm text-hueso-300 hover:text-terracota-300 transition-colors w-max">
+                    {e.texto}
+                  </Link>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-col gap-3">
-              <span className="eyebrow">Contacto</span>
-              <span className="text-xs text-white/45">Calle 100 #15-20, Bogotá</span>
-              <span className="text-xs text-white/45">+57 300 123 4567</span>
-              <span className="text-xs text-white/45">info@habita.com.co</span>
+
+            <div className="md:col-span-4 flex flex-col gap-4">
+              <span className="rotulo">Sala de ventas</span>
+              <div className="flex flex-col gap-3 text-sm text-hueso-300">
+                <span>Calle 100 #15-20, Bogotá</span>
+                <span className="font-mono">+57 300 123 4567</span>
+                <span className="font-mono">info@habita.com.co</span>
+              </div>
             </div>
           </div>
-          <div className="regla-oro" />
-          <div className="max-w-6xl mx-auto px-6 py-5 text-center">
-            <span className="text-[0.64rem] uppercase tracking-[0.2em] text-white/25">
-              © 2026 Habita Constructora · Construcción de Software
-            </span>
+
+          <div className="max-w-contenido mx-auto px-6 lg:px-10 pb-10">
+            <div className="regla pt-6 flex flex-wrap justify-between gap-4">
+              <span className="rotulo">© 2026 Habita Constructora</span>
+              <span className="rotulo">Construcción de Software</span>
+            </div>
           </div>
         </footer>
       </div>

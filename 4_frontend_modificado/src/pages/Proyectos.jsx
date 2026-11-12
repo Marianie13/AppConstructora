@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchApi } from '../api';
 import {
-  Card, Button, TituloSeccion, Etiqueta, EsqueletoTarjeta,
-  Aviso, Select, precioCOP, legible,
+  Seccion, Meta, Select, Esqueleto, Aviso,
+  precioCOP, legible, dosDigitos,
 } from '../ui';
 
 export default function Proyectos() {
@@ -11,26 +11,20 @@ export default function Proyectos() {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
 
-  // Filtros en el cliente: elementos nuevos respecto a la version base.
+  // Filtrado y ordenamiento en el cliente.
   const [ciudad, setCiudad] = useState('TODAS');
   const [estado, setEstado] = useState('TODOS');
   const [orden, setOrden] = useState('nombre');
 
   useEffect(() => {
     fetchApi('/proyectos')
-      .then(data => setProyectos(data))
+      .then(setProyectos)
       .catch(err => setError(err.message))
       .finally(() => setCargando(false));
   }, []);
 
-  const ciudades = useMemo(
-    () => [...new Set(proyectos.map(p => p.ciudad))].sort(),
-    [proyectos]
-  );
-  const estados = useMemo(
-    () => [...new Set(proyectos.map(p => p.estado))].sort(),
-    [proyectos]
-  );
+  const ciudades = useMemo(() => [...new Set(proyectos.map(p => p.ciudad))].sort(), [proyectos]);
+  const estados  = useMemo(() => [...new Set(proyectos.map(p => p.estado))].sort(), [proyectos]);
 
   const visibles = useMemo(() => {
     const lista = proyectos.filter(p =>
@@ -38,85 +32,95 @@ export default function Proyectos() {
       (estado === 'TODOS' || p.estado === estado)
     );
     const copia = [...lista];
-    if (orden === 'precio_asc') copia.sort((a, b) => a.precioDesde - b.precioDesde);
+    if (orden === 'precio_asc')  copia.sort((a, b) => a.precioDesde - b.precioDesde);
     else if (orden === 'precio_desc') copia.sort((a, b) => b.precioDesde - a.precioDesde);
     else copia.sort((a, b) => a.nombre.localeCompare(b.nombre));
     return copia;
   }, [proyectos, ciudad, estado, orden]);
 
   return (
-    <div className="flex flex-col gap-10">
-      <TituloSeccion
-        eyebrow="Portafolio"
+    <div className="flex flex-col gap-16">
+      <Seccion
+        numero="01"
+        rotulo="Portafolio"
         titulo="Todos los proyectos"
-        descripcion="Filtra por ciudad, estado de obra o rango de precio para encontrar lo que buscas."
+        descripcion="Filtra por ciudad, estado de obra o rango de precio."
+        derecha={`${dosDigitos(visibles.length)} / ${dosDigitos(proyectos.length)}`}
       />
 
-      {/* --- Barra de filtros (elemento nuevo) --- */}
-      <div className="border border-white/[0.07] bg-carbon-900/40 px-6 py-5
-                      grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
+      {/* Filtros: sin caja, solo campos subrayados sobre una línea. */}
+      <div className="regla pt-8 grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-8">
         <Select label="Ciudad" value={ciudad} onChange={e => setCiudad(e.target.value)}>
-          <option value="TODAS">Todas las ciudades</option>
+          <option value="TODAS">Todas</option>
           {ciudades.map(c => <option key={c} value={c}>{c}</option>)}
         </Select>
         <Select label="Estado de obra" value={estado} onChange={e => setEstado(e.target.value)}>
-          <option value="TODOS">Todos los estados</option>
+          <option value="TODOS">Todos</option>
           {estados.map(e => <option key={e} value={e}>{legible(e)}</option>)}
         </Select>
         <Select label="Ordenar por" value={orden} onChange={e => setOrden(e.target.value)}>
-          <option value="nombre">Nombre (A-Z)</option>
-          <option value="precio_asc">Precio: menor a mayor</option>
-          <option value="precio_desc">Precio: mayor a menor</option>
+          <option value="nombre">Nombre (A–Z)</option>
+          <option value="precio_asc">Precio ascendente</option>
+          <option value="precio_desc">Precio descendente</option>
         </Select>
-        <div className="text-right">
-          <span className="text-[0.64rem] uppercase tracking-[0.18em] text-white/35">
-            {visibles.length} de {proyectos.length} proyectos
-          </span>
-        </div>
       </div>
 
       {error && <Aviso tipo="error">No pudimos cargar los proyectos: {error}</Aviso>}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
-        {cargando && [1, 2, 3].map(i => <EsqueletoTarjeta key={i} />)}
+      {cargando && (
+        <div className="flex flex-col gap-10">
+          {[1, 2, 3].map(i => <Esqueleto key={i} className="h-56 w-full" />)}
+        </div>
+      )}
 
-        {!cargando && visibles.map(p => (
-          <Card key={p.id}>
-            <div className="relative overflow-hidden h-56">
-              <img
-                src={p.imageUrl}
-                alt={p.nombre}
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-carbon-950/80 to-transparent" />
-              {p.destacado && (
-                <div className="absolute top-4 right-4">
-                  <Etiqueta>★ Destacado</Etiqueta>
-                </div>
-              )}
-            </div>
-            <div className="p-6 flex flex-col gap-3">
-              <div className="flex flex-wrap gap-2">
-                <Etiqueta tono="neutro">{p.ciudad}</Etiqueta>
-                <Etiqueta tono="exito">{legible(p.estado)}</Etiqueta>
+      {/* Listado en filas numeradas, no en tarjetas: se lee como un índice. */}
+      {!cargando && !error && (
+        <div className="flex flex-col">
+          {visibles.map((p, i) => (
+            <Link key={p.id} to={`/detalle-proyecto/${p.id}`}
+                  className="group border-t border-hueso-100/[0.10] hover:border-terracota-400/60
+                             transition-colors duration-500 py-10
+                             grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-6 items-start">
+
+              <span className="lg:col-span-1 font-mono text-rotulo text-hueso-500 pt-2">
+                {dosDigitos(i + 1)}
+              </span>
+
+              <div className="lg:col-span-4 overflow-hidden">
+                <img src={p.imageUrl} alt={p.nombre}
+                     className="w-full h-52 object-cover
+                                transition-transform duration-[900ms] group-hover:scale-[1.04]" />
               </div>
-              <h3 className="font-display text-2xl text-white font-light">{p.nombre}</h3>
-              <p className="text-sm text-white/50 leading-relaxed line-clamp-3">{p.descripcion}</p>
-              <span className="text-[0.68rem] text-white/30">{p.direccion}</span>
-              <div className="regla-oro my-2" />
-              <div className="flex items-end justify-between gap-3">
-                <div className="flex flex-col">
-                  <span className="text-[0.6rem] uppercase tracking-[0.18em] text-white/35">Desde</span>
-                  <span className="text-base text-oro-300">{precioCOP(p.precioDesde)}</span>
+
+              <div className="lg:col-span-4 flex flex-col gap-4">
+                <div className="flex flex-wrap gap-5">
+                  <Meta acento>{p.ciudad}</Meta>
+                  <Meta>{legible(p.estado)}</Meta>
+                  {p.destacado && <Meta>Destacado</Meta>}
                 </div>
-                <Link to={`/detalle-proyecto/${p.id}`}>
-                  <Button variant="outline" className="text-[0.7rem] px-4 py-2">Ver detalle</Button>
-                </Link>
+                <h3 className="text-3xl tracking-tight text-hueso-50
+                               group-hover:text-terracota-300 transition-colors duration-300">
+                  {p.nombre}
+                </h3>
+                <p className="text-sm leading-relaxed text-hueso-300 max-w-md">{p.descripcion}</p>
+                <span className="rotulo">{p.direccion}</span>
               </div>
-            </div>
-          </Card>
-        ))}
-      </div>
+
+              <div className="lg:col-span-3 flex flex-col lg:items-end gap-2 pt-2">
+                <span className="rotulo">Desde</span>
+                <span className="font-mono text-lg text-hueso-50 tabular-nums">
+                  {precioCOP(p.precioDesde)}
+                </span>
+                <span className="mt-4 font-mono text-rotulo uppercase text-hueso-400
+                                 group-hover:text-terracota-300 transition-colors duration-300">
+                  Ver proyecto →
+                </span>
+              </div>
+            </Link>
+          ))}
+          <div className="regla" />
+        </div>
+      )}
 
       {!cargando && !error && visibles.length === 0 && (
         <Aviso>Ningún proyecto coincide con los filtros seleccionados.</Aviso>

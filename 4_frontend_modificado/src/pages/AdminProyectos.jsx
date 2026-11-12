@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchApi } from '../api';
-import { TituloSeccion, Etiqueta, Esqueleto, Aviso, Button, precioCOP, legible } from '../ui';
+import { Seccion, Meta, Esqueleto, Aviso, precioCOP, legible, dosDigitos } from '../ui';
 
 export default function AdminProyectos() {
   const [proyectos, setProyectos] = useState([]);
@@ -10,56 +10,50 @@ export default function AdminProyectos() {
 
   useEffect(() => {
     fetchApi('/proyectos')
-      .then(data => setProyectos(data))
+      .then(setProyectos)
       .catch(err => setError(err.message))
       .finally(() => setCargando(false));
   }, []);
 
   return (
-    <div className="flex flex-col gap-10">
-      <div className="flex flex-wrap items-end justify-between gap-6">
-        <TituloSeccion eyebrow="Administración" titulo="Gestión de proyectos" />
-        <span className="text-[0.64rem] uppercase tracking-[0.18em] text-white/35">
-          {proyectos.length} registro(s)
-        </span>
-      </div>
+    <div className="flex flex-col gap-14">
+      <Seccion numero="01" rotulo="Gestión" titulo="Proyectos"
+               derecha={`${dosDigitos(proyectos.length)} registros`} />
 
       {error && <Aviso tipo="error">No pudimos cargar los proyectos: {error}</Aviso>}
-      {cargando && <div className="flex flex-col gap-2">{[1,2,3,4].map(i => <Esqueleto key={i} className="h-14 w-full" />)}</div>}
+      {cargando && <div className="flex flex-col gap-3">{[1,2,3].map(i => <Esqueleto key={i} className="h-16 w-full" />)}</div>}
 
       {!cargando && !error && (
-        <div className="border border-white/[0.07] overflow-x-auto">
-          <table className="w-full text-left text-sm min-w-[46rem]">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[48rem] text-left">
             <thead>
-              <tr className="bg-carbon-900/70 border-b border-white/[0.07]">
-                <th className="px-5 py-4 eyebrow">Proyecto</th>
-                <th className="px-5 py-4 eyebrow">Ciudad</th>
-                <th className="px-5 py-4 eyebrow">Estado</th>
-                <th className="px-5 py-4 eyebrow">Destacado</th>
-                <th className="px-5 py-4 eyebrow text-right">Precio desde</th>
-                <th className="px-5 py-4 eyebrow"></th>
+              <tr className="border-b border-hueso-100/20">
+                <th className="rotulo pb-4 pr-6 w-10">#</th>
+                <th className="rotulo pb-4 pr-6">Proyecto</th>
+                <th className="rotulo pb-4 pr-6">Ciudad</th>
+                <th className="rotulo pb-4 pr-6">Estado</th>
+                <th className="rotulo pb-4 pr-6">Destacado</th>
+                <th className="rotulo pb-4 text-right">Precio desde</th>
               </tr>
             </thead>
             <tbody>
-              {proyectos.map(p => (
-                <tr key={p.id} className="border-b border-white/[0.05] last:border-0 hover:bg-white/[0.02] transition-colors">
-                  <td className="px-5 py-4">
-                    <span className="text-white">{p.nombre}</span>
-                    <br />
-                    <span className="text-[0.68rem] text-white/30">{p.direccion}</span>
-                  </td>
-                  <td className="px-5 py-4 text-white/60">{p.ciudad}</td>
-                  <td className="px-5 py-4"><Etiqueta tono="exito">{legible(p.estado)}</Etiqueta></td>
-                  <td className="px-5 py-4">
-                    {p.destacado
-                      ? <Etiqueta>★ Sí</Etiqueta>
-                      : <span className="text-white/25 text-xs">No</span>}
-                  </td>
-                  <td className="px-5 py-4 text-right text-oro-300 whitespace-nowrap">{precioCOP(p.precioDesde)}</td>
-                  <td className="px-5 py-4 text-right">
-                    <Link to={`/detalle-proyecto/${p.id}`}>
-                      <Button variant="ghost" className="px-0 text-[0.68rem]">Ver →</Button>
+              {proyectos.map((p, i) => (
+                <tr key={p.id} className="border-b border-hueso-100/[0.08] group hover:bg-hueso-100/[0.02] transition-colors">
+                  <td className="py-6 pr-6 font-mono text-rotulo text-hueso-500 align-top">{dosDigitos(i + 1)}</td>
+                  <td className="py-6 pr-6 align-top">
+                    <Link to={`/detalle-proyecto/${p.id}`}
+                          className="text-lg text-hueso-50 group-hover:text-terracota-300 transition-colors">
+                      {p.nombre}
                     </Link>
+                    <div className="mt-1.5"><span className="rotulo">{p.direccion}</span></div>
+                  </td>
+                  <td className="py-6 pr-6 align-top text-sm text-hueso-200">{p.ciudad}</td>
+                  <td className="py-6 pr-6 align-top"><Meta>{legible(p.estado)}</Meta></td>
+                  <td className="py-6 pr-6 align-top">
+                    {p.destacado ? <Meta acento>Sí</Meta> : <span className="rotulo">No</span>}
+                  </td>
+                  <td className="py-6 align-top text-right font-mono text-sm text-hueso-50 tabular-nums whitespace-nowrap">
+                    {precioCOP(p.precioDesde)}
                   </td>
                 </tr>
               ))}

@@ -1,110 +1,98 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { fetchApi } from '../api';
-import {
-  Card, TituloSeccion, Etiqueta, EsqueletoTarjeta,
-  Aviso, Button, precioCOP, legible,
-} from '../ui';
+import { Seccion, Meta, Esqueleto, Aviso, precioCOP, legible, dosDigitos } from '../ui';
 
 export default function Viviendas() {
   const [viviendas, setViviendas] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
-
-  // Pestanas por tipo de vivienda: elemento nuevo.
   const [tipo, setTipo] = useState('TODOS');
 
   useEffect(() => {
     fetchApi('/viviendas/disponibles')
-      .then(data => setViviendas(data))
+      .then(setViviendas)
       .catch(err => setError(err.message))
       .finally(() => setCargando(false));
   }, []);
 
-  const tipos = useMemo(
-    () => ['TODOS', ...new Set(viviendas.map(v => v.tipo))],
-    [viviendas]
-  );
-
-  const visibles = tipo === 'TODOS'
-    ? viviendas
-    : viviendas.filter(v => v.tipo === tipo);
+  const tipos = useMemo(() => ['TODOS', ...new Set(viviendas.map(v => v.tipo))], [viviendas]);
+  const visibles = tipo === 'TODOS' ? viviendas : viviendas.filter(v => v.tipo === tipo);
 
   return (
-    <div className="flex flex-col gap-10">
-      <TituloSeccion
-        eyebrow="Inmuebles"
+    <div className="flex flex-col gap-16">
+      <Seccion
+        numero="01"
+        rotulo="Inmuebles"
         titulo="Viviendas disponibles"
-        descripcion="Casas, apartamentos y lotes listos para reservar en nuestros proyectos activos."
+        descripcion="Casas, apartamentos y lotes listos para reservar."
+        derecha={`${dosDigitos(visibles.length)} disponibles`}
       />
 
-      {/* --- Pestanas por tipo (elemento nuevo) --- */}
-      <div className="flex flex-wrap gap-2 border-b border-white/[0.07] pb-px">
+      {/* Filtro por tipo: texto, no botones con fondo. */}
+      <div className="regla pt-6 flex flex-wrap gap-x-10 gap-y-4">
         {tipos.map(t => (
-          <button
-            key={t}
-            onClick={() => setTipo(t)}
-            className={
-              'px-5 py-3 text-[0.72rem] uppercase tracking-[0.16em] transition-all duration-300 ' +
-              (tipo === t
-                ? 'text-oro-300 border-b-2 border-oro-400'
-                : 'text-white/40 border-b-2 border-transparent hover:text-white/70')
-            }
-          >
+          <button key={t} onClick={() => setTipo(t)}
+                  className={'font-mono text-rotulo uppercase transition-colors duration-300 flex items-baseline gap-2 ' +
+                             (tipo === t ? 'text-terracota-400' : 'text-hueso-400 hover:text-hueso-100')}>
+            {tipo === t && <span className="h-1 w-1 bg-terracota-400" />}
             {t === 'TODOS' ? 'Todas' : legible(t)}
-            {t !== 'TODOS' && (
-              <span className="ml-2 text-white/25">
-                {viviendas.filter(v => v.tipo === t).length}
-              </span>
-            )}
+            <span className="text-hueso-500">
+              {t === 'TODOS' ? dosDigitos(viviendas.length)
+                             : dosDigitos(viviendas.filter(v => v.tipo === t).length)}
+            </span>
           </button>
         ))}
       </div>
 
       {error && <Aviso tipo="error">No pudimos cargar las viviendas: {error}</Aviso>}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
-        {cargando && [1, 2, 3].map(i => <EsqueletoTarjeta key={i} />)}
+      {cargando && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          {[1, 2, 3].map(i => <Esqueleto key={i} className="h-80 w-full" />)}
+        </div>
+      )}
 
-        {!cargando && visibles.map(v => (
-          <Card key={v.id}>
-            <div className="relative overflow-hidden h-56">
-              <img
-                src={v.imageUrl}
-                alt={v.titulo}
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-carbon-950/80 to-transparent" />
-              <div className="absolute top-4 left-5">
-                <Etiqueta>{legible(v.tipo)}</Etiqueta>
-              </div>
-            </div>
-            <div className="p-6 flex flex-col gap-4">
-              <h3 className="font-display text-2xl text-white font-light">{v.titulo}</h3>
-
-              {/* Ficha tecnica en rejilla, antes era una linea de emojis */}
-              <div className="grid grid-cols-3 border-y border-white/[0.07] divide-x divide-white/[0.07]">
-                <div className="py-3 text-center">
-                  <div className="text-lg text-white font-display">{v.habitaciones}</div>
-                  <div className="text-[0.58rem] uppercase tracking-[0.16em] text-white/35">Habit.</div>
-                </div>
-                <div className="py-3 text-center">
-                  <div className="text-lg text-white font-display">{v.banos}</div>
-                  <div className="text-[0.58rem] uppercase tracking-[0.16em] text-white/35">Baños</div>
-                </div>
-                <div className="py-3 text-center">
-                  <div className="text-lg text-white font-display">{v.area}</div>
-                  <div className="text-[0.58rem] uppercase tracking-[0.16em] text-white/35">m²</div>
-                </div>
+      {!cargando && !error && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
+          {visibles.map(v => (
+            <article key={v.id} className="group flex flex-col">
+              <div className="overflow-hidden">
+                <img src={v.imageUrl} alt={v.titulo}
+                     className="w-full h-64 object-cover
+                                transition-transform duration-[900ms] group-hover:scale-[1.04]" />
               </div>
 
-              <span className="text-[0.68rem] uppercase tracking-[0.14em] text-white/30">
-                {v.proyectoNombre}
-              </span>
-              <span className="text-xl text-oro-300">{precioCOP(v.precio)}</span>
-            </div>
-          </Card>
-        ))}
-      </div>
+              <div className="border-t border-hueso-100/[0.10] group-hover:border-terracota-400/60
+                              transition-colors duration-500 mt-5 pt-5 flex flex-col gap-4">
+                <div className="flex items-center justify-between gap-4">
+                  <Meta acento>{legible(v.tipo)}</Meta>
+                  <Meta>{v.proyectoNombre}</Meta>
+                </div>
+
+                <h3 className="text-2xl tracking-tight text-hueso-50">{v.titulo}</h3>
+
+                {/* Ficha técnica: tres datos separados por líneas verticales. */}
+                <dl className="flex items-stretch divide-x divide-hueso-100/[0.10] -mx-1">
+                  {[
+                    { n: v.habitaciones, l: 'Habitaciones' },
+                    { n: v.banos,        l: 'Baños' },
+                    { n: v.area,         l: 'm²' },
+                  ].map(d => (
+                    <div key={d.l} className="flex-1 px-1 flex flex-col gap-1.5">
+                      <dd className="font-mono text-xl text-hueso-50 tabular-nums">{d.n}</dd>
+                      <dt className="rotulo">{d.l}</dt>
+                    </div>
+                  ))}
+                </dl>
+
+                <span className="font-mono text-base text-hueso-50 tabular-nums pt-1">
+                  {precioCOP(v.precio)}
+                </span>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
 
       {!cargando && !error && visibles.length === 0 && (
         <Aviso>No hay viviendas disponibles de este tipo en este momento.</Aviso>

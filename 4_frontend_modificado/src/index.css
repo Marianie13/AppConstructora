@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,47 +6,35 @@
 
 @layer base {
   body {
-    @apply bg-carbon-950 text-carbon-100 font-sans antialiased;
-    background-image:
-      radial-gradient(60rem 40rem at 15% -10%, rgba(207, 168, 74, 0.10), transparent 60%),
-      radial-gradient(50rem 35rem at 90% 0%, rgba(207, 168, 74, 0.06), transparent 60%);
-    background-attachment: fixed;
-    color: #e8e6e1;
+    @apply bg-tinta-950 text-hueso-100 font-sans antialiased;
   }
-
-  h1, h2, h3 {
-    @apply font-display;
-  }
-
-  ::selection {
-    background: rgba(207, 168, 74, 0.3);
-  }
+  /* Los titulos grandes van apretados; es lo que hace que se vean editoriales. */
+  h1, h2, h3 { @apply font-display font-medium; }
+  ::selection { background: #C4633F; color: #0C0B09; }
 }
 
 @layer components {
-  /* Linea dorada fina que separa secciones */
-  .regla-oro {
-    @apply h-px w-full bg-gradient-to-r from-transparent via-oro-400/50 to-transparent;
+  /* Rotulo monoespaciado para numeros de seccion y metadatos. */
+  .rotulo {
+    @apply font-mono text-rotulo uppercase text-hueso-400;
   }
-
-  /* Etiqueta pequena en mayusculas con tracking amplio */
-  .eyebrow {
-    @apply text-[0.68rem] uppercase tracking-marca text-oro-300 font-medium;
+  .rotulo-acento {
+    @apply font-mono text-rotulo uppercase text-terracota-400;
+  }
+  /* Linea fina de separacion, el recurso que estructura toda la pagina. */
+  .regla {
+    @apply border-t border-hueso-100/[0.10];
+  }
+  /* Enlace de texto con subrayado que crece al pasar el cursor. */
+  .enlace {
+    @apply relative inline-flex items-center gap-2 text-hueso-100
+           after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0
+           after:bg-terracota-400 after:transition-all after:duration-500
+           hover:after:w-full hover:text-terracota-300 transition-colors duration-300;
   }
 }
 
-/* Barra de desplazamiento al tono del tema */
-::-webkit-scrollbar {
-  width: 11px;
-}
-::-webkit-scrollbar-track {
-  background: #121216;
-}
-::-webkit-scrollbar-thumb {
-  background: #32323c;
-  border-radius: 99px;
-  border: 3px solid #121216;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #b8902f;
-}
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #0C0B09; }
+::-webkit-scrollbar-thumb { background: #2E2A26; }
+::-webkit-scrollbar-thumb:hover { background: #C4633F; }

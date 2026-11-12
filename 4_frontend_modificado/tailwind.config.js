@@ -1,45 +1,49 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    './index.html',
-    './src/**/*.{js,jsx}',
-  ],
+  content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
       colors: {
-        // Paleta "Habita" - elegante oscuro con acentos dorados
-        carbon: {
-          50:  '#f6f5f3',
-          100: '#e8e6e1',
-          200: '#d3d0c9',
-          300: '#aaa6a0',
-          400: '#7d7a75',
-          500: '#55534f',
-          950: '#0a0a0c',
-          900: '#121216',
-          800: '#1a1a20',
-          700: '#24242c',
-          600: '#32323c',
+        // Negro cálido, no azulado: se siente impreso, no digital.
+        tinta: {
+          950: '#0C0B09',
+          900: '#121110',
+          850: '#1A1816',
+          800: '#221F1C',
+          700: '#2E2A26',
+          600: '#3D3833',
         },
-        oro: {
-          100: '#f7eccf',
-          200: '#ecd9a3',
-          300: '#dfc173',
-          400: '#cfa84a',
-          500: '#b8902f',
-          600: '#957125',
+        // Texto color hueso, nunca blanco puro.
+        hueso: {
+          50:  '#F7F4EE',
+          100: '#EDE8E0',
+          200: '#D6D0C6',
+          300: '#A8A196',
+          400: '#7C766D',
+          500: '#565149',
+        },
+        // Un solo acento, usado con cuenta.
+        terracota: {
+          300: '#D98A66',
+          400: '#C4633F',
+          500: '#AE5433',
         },
       },
       fontFamily: {
-        display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        sans: ['"Jost"', 'system-ui', 'sans-serif'],
+        // Una sola grotesca para todo, como las revistas de arquitectura.
+        sans: ['Archivo', 'Helvetica Neue', 'sans-serif'],
+        display: ['Archivo', 'Helvetica Neue', 'sans-serif'],
+        // La monoespaciada se reserva para numeros y metadatos.
+        mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
       },
-      boxShadow: {
-        oro: '0 0 0 1px rgba(207,168,74,0.35), 0 18px 40px -24px rgba(207,168,74,0.45)',
+      fontSize: {
+        // Escala con mucho contraste: o muy grande, o muy pequeño.
+        'display-xl': ['clamp(3.5rem, 11vw, 9rem)', { lineHeight: '0.88', letterSpacing: '-0.04em' }],
+        'display-lg': ['clamp(2.5rem, 6vw, 5rem)',  { lineHeight: '0.92', letterSpacing: '-0.035em' }],
+        'display-md': ['clamp(1.75rem, 3vw, 2.75rem)', { lineHeight: '1.0', letterSpacing: '-0.025em' }],
+        'rotulo':     ['0.6875rem', { lineHeight: '1', letterSpacing: '0.14em' }],
       },
-      letterSpacing: {
-        marca: '0.28em',
-      },
+      maxWidth: { contenido: '82rem' },
     },
   },
   plugins: [],
