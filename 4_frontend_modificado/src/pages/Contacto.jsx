@@ -23,9 +23,9 @@ export default function Contacto() {
         <div className="lg:col-span-5 flex flex-col">
           {datos.map(d => (
             <div key={d.etiqueta}
-                 className="border-t border-hueso-100/[0.10] py-6 flex items-baseline justify-between gap-6">
+                 className="border-t border-tinta-800/[0.10] py-6 flex items-baseline justify-between gap-6">
               <span className="rotulo">{d.etiqueta}</span>
-              <span className={`text-sm text-right text-hueso-100 ${d.mono ? 'font-mono' : ''}`}>
+              <span className={`text-sm text-right text-tinta-800 ${d.mono ? 'font-mono' : ''}`}>
                 {d.valor}
               </span>
             </div>

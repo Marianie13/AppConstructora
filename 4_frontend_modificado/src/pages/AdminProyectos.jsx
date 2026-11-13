@@ -27,7 +27,7 @@ export default function AdminProyectos() {
         <div className="overflow-x-auto">
           <table className="w-full min-w-[48rem] text-left">
             <thead>
-              <tr className="border-b border-hueso-100/20">
+              <tr className="border-b border-tinta-800/20">
                 <th className="rotulo pb-4 pr-6 w-10">#</th>
                 <th className="rotulo pb-4 pr-6">Proyecto</th>
                 <th className="rotulo pb-4 pr-6">Ciudad</th>
@@ -38,21 +38,21 @@ export default function AdminProyectos() {
             </thead>
             <tbody>
               {proyectos.map((p, i) => (
-                <tr key={p.id} className="border-b border-hueso-100/[0.08] group hover:bg-hueso-100/[0.02] transition-colors">
-                  <td className="py-6 pr-6 font-mono text-rotulo text-hueso-500 align-top">{dosDigitos(i + 1)}</td>
+                <tr key={p.id} className="border-b border-tinta-800/[0.08] group hover:bg-tinta-800/[0.02] transition-colors">
+                  <td className="py-6 pr-6 font-mono text-rotulo text-tinta-400 align-top">{dosDigitos(i + 1)}</td>
                   <td className="py-6 pr-6 align-top">
                     <Link to={`/detalle-proyecto/${p.id}`}
-                          className="text-lg text-hueso-50 group-hover:text-terracota-300 transition-colors">
+                          className="text-lg text-tinta-900 group-hover:text-terracota-300 transition-colors">
                       {p.nombre}
                     </Link>
                     <div className="mt-1.5"><span className="rotulo">{p.direccion}</span></div>
                   </td>
-                  <td className="py-6 pr-6 align-top text-sm text-hueso-200">{p.ciudad}</td>
+                  <td className="py-6 pr-6 align-top text-sm text-tinta-700">{p.ciudad}</td>
                   <td className="py-6 pr-6 align-top"><Meta>{legible(p.estado)}</Meta></td>
                   <td className="py-6 pr-6 align-top">
                     {p.destacado ? <Meta acento>Sí</Meta> : <span className="rotulo">No</span>}
                   </td>
-                  <td className="py-6 align-top text-right font-mono text-sm text-hueso-50 tabular-nums whitespace-nowrap">
+                  <td className="py-6 align-top text-right font-mono text-sm text-tinta-900 tabular-nums whitespace-nowrap">
                     {precioCOP(p.precioDesde)}
                   </td>
                 </tr>

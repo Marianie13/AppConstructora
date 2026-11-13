@@ -51,17 +51,17 @@ export default function AdminClientes() {
         <div className="flex flex-col">
           {clientes.map((c, i) => (
             <div key={c.id}
-                 className="border-t border-hueso-100/[0.10] py-8
+                 className="border-t border-tinta-800/[0.10] py-8
                             grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-5 items-start">
 
-              <span className="lg:col-span-1 font-mono text-rotulo text-hueso-500 pt-1">
+              <span className="lg:col-span-1 font-mono text-rotulo text-tinta-400 pt-1">
                 {dosDigitos(i + 1)}
               </span>
 
               <div className="lg:col-span-3 flex flex-col gap-2">
-                <span className="text-lg text-hueso-50">{c.nombre}</span>
-                <span className="font-mono text-rotulo uppercase text-hueso-400">{c.telefono}</span>
-                <span className="font-mono text-rotulo text-hueso-500 lowercase">{c.correo}</span>
+                <span className="text-lg text-tinta-900">{c.nombre}</span>
+                <span className="font-mono text-rotulo uppercase text-tinta-500">{c.telefono}</span>
+                <span className="font-mono text-rotulo text-tinta-400 lowercase">{c.correo}</span>
               </div>
 
               <div className="lg:col-span-3 flex flex-col gap-2">
@@ -69,7 +69,7 @@ export default function AdminClientes() {
                 <Meta acento>{c.proyectoNombre || '—'}</Meta>
               </div>
 
-              <p className="lg:col-span-3 text-sm leading-relaxed text-hueso-300">
+              <p className="lg:col-span-3 text-sm leading-relaxed text-tinta-600">
                 {c.mensaje || '—'}
               </p>
 

@@ -40,14 +40,14 @@ export default function Inicio() {
           <span className="rotulo">— Constructora · Bogotá · Medellín · Cali</span>
         </div>
 
-        <h1 className="text-display-xl mt-10 text-hueso-50 font-semibold">
+        <h1 className="text-display-xl mt-10 text-tinta-900 font-semibold">
           Espacios
           <br />
           <span className="text-terracota-400">para habitar</span>
         </h1>
 
         <div className="regla mt-14 pt-10 grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-10">
-          <p className="lg:col-span-5 text-base leading-relaxed text-hueso-200">
+          <p className="lg:col-span-5 text-base leading-relaxed text-tinta-700">
             Diseñamos y construimos vivienda donde la arquitectura, la luz y el
             detalle trabajan a favor de quien la habita.
           </p>
@@ -92,7 +92,7 @@ export default function Inicio() {
                        className="w-full h-[26rem] lg:h-[34rem] object-cover
                                   transition-transform duration-[900ms] group-hover:scale-[1.03]" />
                 </div>
-                <div className="border-t border-hueso-100/[0.10] group-hover:border-terracota-400/60
+                <div className="border-t border-tinta-800/[0.10] group-hover:border-terracota-400/60
                                 transition-colors duration-500 mt-6 pt-6
                                 flex flex-wrap items-start justify-between gap-6">
                   <div className="flex flex-col gap-4">
@@ -100,14 +100,14 @@ export default function Inicio() {
                       <Meta acento>{principal.ciudad}</Meta>
                       <Meta>{legible(principal.estado)}</Meta>
                     </div>
-                    <h3 className="text-display-md text-hueso-50">{principal.nombre}</h3>
-                    <p className="max-w-md text-sm leading-relaxed text-hueso-300">
+                    <h3 className="text-display-md text-tinta-900">{principal.nombre}</h3>
+                    <p className="max-w-md text-sm leading-relaxed text-tinta-600">
                       {principal.descripcion}
                     </p>
                   </div>
                   <div className="flex flex-col items-start lg:items-end gap-2">
                     <span className="rotulo">Desde</span>
-                    <span className="font-mono text-lg text-hueso-50 tabular-nums">
+                    <span className="font-mono text-lg text-tinta-900 tabular-nums">
                       {precioCOP(principal.precioDesde)}
                     </span>
                   </div>
@@ -123,14 +123,14 @@ export default function Inicio() {
                          className="w-full h-56 object-cover
                                     transition-transform duration-[900ms] group-hover:scale-[1.03]" />
                   </div>
-                  <div className="border-t border-hueso-100/[0.10] group-hover:border-terracota-400/60
+                  <div className="border-t border-tinta-800/[0.10] group-hover:border-terracota-400/60
                                   transition-colors duration-500 mt-5 pt-5 flex flex-col gap-3">
                     <div className="flex flex-wrap gap-5">
                       <Meta acento>{p.ciudad}</Meta>
                       <Meta>{legible(p.estado)}</Meta>
                     </div>
-                    <h3 className="text-2xl tracking-tight text-hueso-50">{p.nombre}</h3>
-                    <span className="font-mono text-sm text-hueso-300 tabular-nums">
+                    <h3 className="text-2xl tracking-tight text-tinta-900">{p.nombre}</h3>
+                    <span className="font-mono text-sm text-tinta-600 tabular-nums">
                       desde {precioCOP(p.precioDesde)}
                     </span>
                   </div>

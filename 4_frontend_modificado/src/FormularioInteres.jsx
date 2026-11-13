@@ -78,7 +78,7 @@ export function FormularioInteres({ proyectoId, onExito }) {
         {loading ? 'Enviando…' : 'Enviar solicitud'}
       </Button>
 
-      <p className="font-mono text-rotulo uppercase leading-relaxed text-hueso-500 max-w-sm">
+      <p className="font-mono text-rotulo uppercase leading-relaxed text-tinta-400 max-w-sm">
         Al enviar autorizas el tratamiento de tus datos con fines comerciales
         relacionados con el proyecto seleccionado.
       </p>

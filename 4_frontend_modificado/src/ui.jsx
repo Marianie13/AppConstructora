@@ -16,11 +16,11 @@ export function Button({ children, variant = 'primary', className = '', ...props
     'inline-flex items-center justify-center gap-3 cursor-pointer ' +
     'disabled:opacity-35 disabled:cursor-not-allowed';
   const variants = {
-    primary:   'bg-terracota-400 text-tinta-950 hover:bg-terracota-300',
-    secondary: 'bg-tinta-800 text-hueso-100 hover:bg-tinta-700',
-    outline:   'border border-hueso-100/20 text-hueso-100 hover:border-terracota-400 hover:text-terracota-300',
+    primary:   'bg-terracota-400 text-papel-100 hover:bg-terracota-300',
+    secondary: 'bg-papel-300 text-tinta-800 hover:bg-papel-400',
+    outline:   'border border-tinta-800/20 text-tinta-800 hover:border-terracota-400 hover:text-terracota-300',
     danger:    'border border-terracota-500/40 text-terracota-300 hover:bg-terracota-500/10',
-    ghost:     'text-hueso-300 hover:text-terracota-300 px-0',
+    ghost:     'text-tinta-600 hover:text-terracota-300 px-0',
   };
   return (
     <button className={`${base} ${variants[variant]} ${className}`} {...props}>
@@ -32,7 +32,7 @@ export function Button({ children, variant = 'primary', className = '', ...props
 /** Tarjeta sin sombra: solo una línea que se tiñe al pasar el cursor. */
 export function Card({ children, className = '' }) {
   return (
-    <article className={`group border-t border-hueso-100/[0.10] hover:border-terracota-400/60
+    <article className={`group border-t border-tinta-800/[0.10] hover:border-terracota-400/60
                          transition-colors duration-500 pt-5 ${className}`}>
       {children}
     </article>
@@ -51,10 +51,10 @@ export function Seccion({ numero, rotulo, titulo, descripcion, derecha, classNam
         {derecha && <span className="rotulo">{derecha}</span>}
       </div>
       {titulo && (
-        <h2 className="text-display-md mt-7 max-w-3xl text-hueso-50">{titulo}</h2>
+        <h2 className="text-display-md mt-7 max-w-3xl text-tinta-900">{titulo}</h2>
       )}
       {descripcion && (
-        <p className="mt-5 max-w-xl text-sm leading-relaxed text-hueso-300">{descripcion}</p>
+        <p className="mt-5 max-w-xl text-sm leading-relaxed text-tinta-600">{descripcion}</p>
       )}
     </header>
   );
@@ -64,7 +64,7 @@ export function Seccion({ numero, rotulo, titulo, descripcion, derecha, classNam
 export function Meta({ children, acento = false }) {
   return (
     <span className={`font-mono text-rotulo uppercase inline-flex items-center gap-2
-                      ${acento ? 'text-terracota-300' : 'text-hueso-400'}`}>
+                      ${acento ? 'text-terracota-300' : 'text-tinta-500'}`}>
       {acento && <span className="h-1 w-1 bg-terracota-400" />}
       {children}
     </span>
@@ -75,7 +75,7 @@ export function Meta({ children, acento = false }) {
 export function Dato({ valor, etiqueta, className = '' }) {
   return (
     <div className={`flex flex-col gap-3 ${className}`}>
-      <span className="font-mono text-4xl md:text-5xl font-medium text-hueso-50 tabular-nums tracking-tight">
+      <span className="font-mono text-4xl md:text-5xl font-medium text-tinta-900 tabular-nums tracking-tight">
         {valor}
       </span>
       <span className="rotulo">{etiqueta}</span>
@@ -88,8 +88,8 @@ export function Input({ label, error, ...props }) {
     <div className="flex flex-col gap-2.5 w-full">
       {label && <label className="rotulo">{label}</label>}
       <input
-        className="w-full bg-transparent border-0 border-b border-hueso-100/15 py-2.5 text-sm
-                   text-hueso-50 placeholder:text-hueso-500
+        className="w-full bg-transparent border-0 border-b border-tinta-800/15 py-2.5 text-sm
+                   text-tinta-900 placeholder:text-tinta-400
                    focus:outline-none focus:border-terracota-400 transition-colors duration-300"
         {...props}
       />
@@ -103,8 +103,8 @@ export function Textarea({ label, error, ...props }) {
     <div className="flex flex-col gap-2.5 w-full">
       {label && <label className="rotulo">{label}</label>}
       <textarea
-        className="w-full bg-transparent border-0 border-b border-hueso-100/15 py-2.5 text-sm resize-none
-                   text-hueso-50 placeholder:text-hueso-500
+        className="w-full bg-transparent border-0 border-b border-tinta-800/15 py-2.5 text-sm resize-none
+                   text-tinta-900 placeholder:text-tinta-400
                    focus:outline-none focus:border-terracota-400 transition-colors duration-300"
         {...props}
       />
@@ -118,9 +118,9 @@ export function Select({ label, children, error, ...props }) {
     <div className="flex flex-col gap-2.5 w-full">
       {label && <label className="rotulo">{label}</label>}
       <select
-        className="w-full bg-transparent border-0 border-b border-hueso-100/15 py-2.5 text-sm
-                   text-hueso-50 focus:outline-none focus:border-terracota-400
-                   transition-colors duration-300 [&>option]:bg-tinta-900 [&>option]:text-hueso-100"
+        className="w-full bg-transparent border-0 border-b border-tinta-800/15 py-2.5 text-sm
+                   text-tinta-900 focus:outline-none focus:border-terracota-400
+                   transition-colors duration-300 [&>option]:bg-papel-200 [&>option]:text-tinta-800"
         {...props}
       >
         {children}
@@ -133,12 +133,12 @@ export function Select({ label, children, error, ...props }) {
 /* --- Estados --- */
 
 export function Esqueleto({ className = '' }) {
-  return <div className={`animate-pulse bg-hueso-100/[0.05] ${className}`} />;
+  return <div className={`animate-pulse bg-tinta-800/[0.05] ${className}`} />;
 }
 
 export function EsqueletoTarjeta({ alto = 'h-[22rem]' }) {
   return (
-    <div className="border-t border-hueso-100/[0.10] pt-5">
+    <div className="border-t border-tinta-800/[0.10] pt-5">
       <Esqueleto className={`${alto} w-full`} />
       <div className="flex flex-col gap-3 pt-5">
         <Esqueleto className="h-2.5 w-24" />
@@ -151,9 +151,9 @@ export function EsqueletoTarjeta({ alto = 'h-[22rem]' }) {
 
 export function Aviso({ tipo = 'info', children }) {
   const tipos = {
-    info:  'border-hueso-100/15 text-hueso-300',
+    info:  'border-tinta-800/15 text-tinta-600',
     error: 'border-terracota-500/50 text-terracota-300',
-    exito: 'border-hueso-100/25 text-hueso-100',
+    exito: 'border-tinta-800/25 text-tinta-800',
   };
   return (
     <div className={`border-l-2 pl-5 py-3 text-sm ${tipos[tipo]}`}>{children}</div>

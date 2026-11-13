@@ -78,11 +78,11 @@ export default function Proyectos() {
         <div className="flex flex-col">
           {visibles.map((p, i) => (
             <Link key={p.id} to={`/detalle-proyecto/${p.id}`}
-                  className="group border-t border-hueso-100/[0.10] hover:border-terracota-400/60
+                  className="group border-t border-tinta-800/[0.10] hover:border-terracota-400/60
                              transition-colors duration-500 py-10
                              grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-6 items-start">
 
-              <span className="lg:col-span-1 font-mono text-rotulo text-hueso-500 pt-2">
+              <span className="lg:col-span-1 font-mono text-rotulo text-tinta-400 pt-2">
                 {dosDigitos(i + 1)}
               </span>
 
@@ -98,20 +98,20 @@ export default function Proyectos() {
                   <Meta>{legible(p.estado)}</Meta>
                   {p.destacado && <Meta>Destacado</Meta>}
                 </div>
-                <h3 className="text-3xl tracking-tight text-hueso-50
+                <h3 className="text-3xl tracking-tight text-tinta-900
                                group-hover:text-terracota-300 transition-colors duration-300">
                   {p.nombre}
                 </h3>
-                <p className="text-sm leading-relaxed text-hueso-300 max-w-md">{p.descripcion}</p>
+                <p className="text-sm leading-relaxed text-tinta-600 max-w-md">{p.descripcion}</p>
                 <span className="rotulo">{p.direccion}</span>
               </div>
 
               <div className="lg:col-span-3 flex flex-col lg:items-end gap-2 pt-2">
                 <span className="rotulo">Desde</span>
-                <span className="font-mono text-lg text-hueso-50 tabular-nums">
+                <span className="font-mono text-lg text-tinta-900 tabular-nums">
                   {precioCOP(p.precioDesde)}
                 </span>
-                <span className="mt-4 font-mono text-rotulo uppercase text-hueso-400
+                <span className="mt-4 font-mono text-rotulo uppercase text-tinta-500
                                  group-hover:text-terracota-300 transition-colors duration-300">
                   Ver proyecto →
                 </span>

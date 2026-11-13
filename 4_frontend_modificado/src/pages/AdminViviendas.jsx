@@ -52,7 +52,7 @@ export default function AdminViviendas() {
         <div className="overflow-x-auto">
           <table className="w-full min-w-[52rem] text-left">
             <thead>
-              <tr className="border-b border-hueso-100/20">
+              <tr className="border-b border-tinta-800/20">
                 <th className="rotulo pb-4 pr-6 w-10">#</th>
                 <th className="rotulo pb-4 pr-6">Inmueble</th>
                 <th className="rotulo pb-4 pr-6">Tipo</th>
@@ -64,18 +64,18 @@ export default function AdminViviendas() {
             </thead>
             <tbody>
               {viviendas.map((v, i) => (
-                <tr key={v.id} className="border-b border-hueso-100/[0.08] hover:bg-hueso-100/[0.02] transition-colors">
-                  <td className="py-5 pr-6 font-mono text-rotulo text-hueso-500">{dosDigitos(i + 1)}</td>
-                  <td className="py-5 pr-6 text-base text-hueso-50">{v.titulo}</td>
+                <tr key={v.id} className="border-b border-tinta-800/[0.08] hover:bg-tinta-800/[0.02] transition-colors">
+                  <td className="py-5 pr-6 font-mono text-rotulo text-tinta-400">{dosDigitos(i + 1)}</td>
+                  <td className="py-5 pr-6 text-base text-tinta-900">{v.titulo}</td>
                   <td className="py-5 pr-6"><Meta>{legible(v.tipo)}</Meta></td>
-                  <td className="py-5 pr-6 text-sm text-hueso-300">{v.proyectoNombre}</td>
-                  <td className="py-5 pr-6 text-center font-mono text-sm text-hueso-200 tabular-nums whitespace-nowrap">
+                  <td className="py-5 pr-6 text-sm text-tinta-600">{v.proyectoNombre}</td>
+                  <td className="py-5 pr-6 text-center font-mono text-sm text-tinta-700 tabular-nums whitespace-nowrap">
                     {v.habitaciones} · {v.banos} · {v.area}
                   </td>
                   <td className="py-5 pr-6">
                     {v.disponible ? <Meta acento>Disponible</Meta> : <span className="rotulo">Reservada</span>}
                   </td>
-                  <td className="py-5 text-right font-mono text-sm text-hueso-50 tabular-nums whitespace-nowrap">
+                  <td className="py-5 text-right font-mono text-sm text-tinta-900 tabular-nums whitespace-nowrap">
                     {precioCOP(v.precio)}
                   </td>
                 </tr>

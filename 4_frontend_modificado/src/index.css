@@ -6,28 +6,28 @@
 
 @layer base {
   body {
-    @apply bg-tinta-950 text-hueso-100 font-sans antialiased;
+    @apply bg-papel-100 text-tinta-800 font-sans antialiased;
   }
   /* Los titulos grandes van apretados; es lo que hace que se vean editoriales. */
   h1, h2, h3 { @apply font-display font-medium; }
-  ::selection { background: #C4633F; color: #0C0B09; }
+  ::selection { background: #C97045; color: #F4F5EF; }
 }
 
 @layer components {
   /* Rotulo monoespaciado para numeros de seccion y metadatos. */
   .rotulo {
-    @apply font-mono text-rotulo uppercase text-hueso-400;
+    @apply font-mono text-rotulo uppercase text-tinta-500;
   }
   .rotulo-acento {
     @apply font-mono text-rotulo uppercase text-terracota-400;
   }
   /* Linea fina de separacion, el recurso que estructura toda la pagina. */
   .regla {
-    @apply border-t border-hueso-100/[0.10];
+    @apply border-t border-tinta-800/[0.10];
   }
   /* Enlace de texto con subrayado que crece al pasar el cursor. */
   .enlace {
-    @apply relative inline-flex items-center gap-2 text-hueso-100
+    @apply relative inline-flex items-center gap-2 text-tinta-800
            after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0
            after:bg-terracota-400 after:transition-all after:duration-500
            hover:after:w-full hover:text-terracota-300 transition-colors duration-300;
@@ -35,6 +35,6 @@
 }
 
 ::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: #0C0B09; }
-::-webkit-scrollbar-thumb { background: #2E2A26; }
-::-webkit-scrollbar-thumb:hover { background: #C4633F; }
+::-webkit-scrollbar-track { background: #EAECE3; }
+::-webkit-scrollbar-thumb { background: #C3C8B7; }
+::-webkit-scrollbar-thumb:hover { background: #A8502C; }

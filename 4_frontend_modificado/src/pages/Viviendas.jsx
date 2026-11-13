@@ -33,10 +33,10 @@ export default function Viviendas() {
         {tipos.map(t => (
           <button key={t} onClick={() => setTipo(t)}
                   className={'font-mono text-rotulo uppercase transition-colors duration-300 flex items-baseline gap-2 ' +
-                             (tipo === t ? 'text-terracota-400' : 'text-hueso-400 hover:text-hueso-100')}>
+                             (tipo === t ? 'text-terracota-400' : 'text-tinta-500 hover:text-tinta-800')}>
             {tipo === t && <span className="h-1 w-1 bg-terracota-400" />}
             {t === 'TODOS' ? 'Todas' : legible(t)}
-            <span className="text-hueso-500">
+            <span className="text-tinta-400">
               {t === 'TODOS' ? dosDigitos(viviendas.length)
                              : dosDigitos(viviendas.filter(v => v.tipo === t).length)}
             </span>
@@ -62,30 +62,30 @@ export default function Viviendas() {
                                 transition-transform duration-[900ms] group-hover:scale-[1.04]" />
               </div>
 
-              <div className="border-t border-hueso-100/[0.10] group-hover:border-terracota-400/60
+              <div className="border-t border-tinta-800/[0.10] group-hover:border-terracota-400/60
                               transition-colors duration-500 mt-5 pt-5 flex flex-col gap-4">
                 <div className="flex items-center justify-between gap-4">
                   <Meta acento>{legible(v.tipo)}</Meta>
                   <Meta>{v.proyectoNombre}</Meta>
                 </div>
 
-                <h3 className="text-2xl tracking-tight text-hueso-50">{v.titulo}</h3>
+                <h3 className="text-2xl tracking-tight text-tinta-900">{v.titulo}</h3>
 
                 {/* Ficha técnica: tres datos separados por líneas verticales. */}
-                <dl className="flex items-stretch divide-x divide-hueso-100/[0.10] -mx-1">
+                <dl className="flex items-stretch divide-x divide-tinta-800/[0.10] -mx-1">
                   {[
                     { n: v.habitaciones, l: 'Habitaciones' },
                     { n: v.banos,        l: 'Baños' },
                     { n: v.area,         l: 'm²' },
                   ].map(d => (
                     <div key={d.l} className="flex-1 px-1 flex flex-col gap-1.5">
-                      <dd className="font-mono text-xl text-hueso-50 tabular-nums">{d.n}</dd>
+                      <dd className="font-mono text-xl text-tinta-900 tabular-nums">{d.n}</dd>
                       <dt className="rotulo">{d.l}</dt>
                     </div>
                   ))}
                 </dl>
 
-                <span className="font-mono text-base text-hueso-50 tabular-nums pt-1">
+                <span className="font-mono text-base text-tinta-900 tabular-nums pt-1">
                   {precioCOP(v.precio)}
                 </span>
               </div>
