@@ -142,7 +142,9 @@ Base: `http://localhost:8080`
 - MySQL 8 o superior
 - Java 17 o superior
 - Node.js 18 o superior
-- Maven
+
+No hace falta instalar Maven: el proyecto incluye el *Maven Wrapper*
+(`mvnw`), que descarga la versión correcta la primera vez que se ejecuta.
 
 ### Paso 1 — Arrancar MySQL
 
@@ -191,8 +193,10 @@ DB_PASSWORD=la_clave_que_elijas
 
 ```bash
 cd 2_backend
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
+
+Esperar a que aparezca `Started ConstructoraApplication`.
 
 Queda escuchando en `http://localhost:8080`. Para comprobarlo:
 
@@ -212,8 +216,17 @@ npm run dev
 
 Abrir `http://localhost:5173`.
 
-Para ver la versión rediseñada, usar `4_frontend_modificado` en lugar de
-`3_frontend` (detener primero el otro frontend, porque ambos usan el puerto 5173).
+Para la versión rediseñada, lo mismo en `4_frontend_modificado` pero en otro
+puerto:
+
+```bash
+cd 4_frontend_modificado
+npm install
+npm run dev -- --port 5174
+```
+
+Las dos pueden correr al mismo tiempo: `CorsConfig` autoriza los puertos 5173
+y 5174, así que se pueden comparar lado a lado.
 
 ---
 
@@ -235,38 +248,89 @@ Para ver la versión rediseñada, usar `4_frontend_modificado` en lugar de
 - **`characterEncoding=UTF-8`** en la URL de JDBC, para que las tildes viajen
   correctamente entre la aplicación y la base de datos.
 - **CORS configurado** en `config/CorsConfig.java` para permitir las peticiones
-  desde `http://localhost:5173`, el puerto del frontend.
+  desde `http://localhost:5173` y `http://localhost:5174`, los puertos de las
+  dos versiones del frontend.
 - **Colecciones genéricas** `List<Vivienda>` y `List<ClienteInteresado>`
   inicializadas con `ArrayList<>` para que nunca queden en `null`.
 - **Lombok** (`@Getter`, `@Setter`, `@RequiredArgsConstructor`) para eliminar
-  código repetitivo en entidades y DTOs.
+  código repetitivo en entidades y DTOs. Se fija la versión **1.18.42** en
+  lugar de la 1.18.30 que gestiona Spring Boot 3.2.0: la antigua no reconoce
+  los JDK más recientes y falla al arrancar como procesador de anotaciones.
+  Además se declara explícitamente en `annotationProcessorPaths`, porque las
+  versiones nuevas de `javac` dejarán de habilitar procesadores encontrados
+  sueltos en el classpath.
+- **Maven Wrapper** (`mvnw`) versionado con el proyecto: se compila y ejecuta
+  sin depender de que Maven esté instalado en la máquina.
 
 ---
 
 ## 8. Diferencias entre `3_frontend` y `4_frontend_modificado`
 
-### Estilos
+Las dos versiones consumen exactamente la misma API: **los cambios están todos
+en la capa de presentación**. El backend y la base de datos no se tocaron.
+
+### Lenguaje visual
+
+La versión modificada sigue un lenguaje **editorial arquitectónico**, inspirado
+en las revistas del gremio: la jerarquía tipográfica manda sobre la imagen, la
+separación se resuelve con líneas finas y el color se usa con cuenta.
+
 | | Versión original | Versión modificada |
 |---|---|---|
-| Tema | Claro (gris y morado índigo) | Oscuro (carbón con acentos dorados) |
-| Tipografía | Tipografía del sistema | Cormorant Garamond (títulos) + Jost (texto) |
-| Bordes | Redondeados (`rounded-xl`) | Rectos, estilo editorial |
-| Tarjetas | Sombra suave | Borde fino que se ilumina y elevación al pasar el cursor |
-| Formularios | Campos con caja y borde completo | Campos con subrayado que se tiñe al enfocarse |
-| Paleta | Clases por defecto de Tailwind | Paleta propia `carbon` y `oro` definida en `tailwind.config.js` |
+| Fondo | Gris claro (`slate-50`) | Beige con base verdosa (`#EAECE3`), del tono del yeso de cal |
+| Texto | Gris azulado | Casi negro con la misma base verdosa del fondo |
+| Acento | Morado índigo, usado en todo | Terracota, usado con cuenta |
+| Tipografía | La del sistema | Archivo (grotesca) + IBM Plex Mono para números y metadatos |
+| Escala | Tamaños cercanos entre sí | Mucho contraste: títulos enormes contra rótulos diminutos |
+| Separación | Tarjetas con sombra y bordes redondeados | Líneas de 1 px. Sin sombras, sin esquinas redondeadas |
+| Retícula | Tres columnas iguales | Asimétrica: un proyecto grande y el resto pequeños |
+| Portafolio | Cuadrícula de tarjetas | Índice numerado en filas, se lee como un sumario |
+| Formularios | Campos con caja completa | Subrayado que se tiñe al enfocarse |
+| Portada | Bloque de color plano | Fotografía en grises, fundida al papel con mezcla `multiply` al 22 % |
+
+### Sistema de diseño
+
+La paleta y las tipografías se declaran en `tailwind.config.js`, no sueltas por
+los archivos. Los nombres describen la **función**, no la apariencia:
+
+| Token | Para qué |
+|---|---|
+| `papel-50` … `papel-400` | Fondos, de más claro a más oscuro |
+| `tinta-400` … `tinta-900` | Textos, de más tenue a más fuerte |
+| `terracota-300` … `terracota-500` | El único acento |
+
+Cambiar la identidad visual completa es cambiar esos valores en un solo
+archivo.
 
 ### Elementos nuevos
-- Banda de estadísticas calculadas en vivo en el inicio y en administración.
-- Barra de filtros en Proyectos: por ciudad, por estado de obra y ordenamiento
-  por precio.
-- Pestañas por tipo de vivienda, con el contador de inmuebles de cada tipo.
-- Menú de administración plegable en la barra de navegación.
-- Migas de pan en el detalle del proyecto.
-- Listado de las viviendas del proyecto dentro de su propia ficha.
-- Placeholders animados (*skeletons*) mientras llegan los datos del backend.
-- Componentes nuevos: `TituloSeccion`, `Etiqueta`, `Estadistica`, `Esqueleto`,
-  `Aviso`, `Textarea`, `Select`.
-- Formato de moneda colombiana con `Intl.NumberFormat` y traducción de los
-  enums a texto legible (`EN_CONSTRUCCION` → "En construcción").
-- Pie de página de tres columnas con datos de contacto.
-- Panel de datos de contacto en la página de Contacto.
+
+Funcionalidad de interfaz que no existe en la versión original:
+
+- **Banda de datos** en el inicio y en administración, calculada en vivo a
+  partir de lo que devuelve la API (proyectos, viviendas, ciudades).
+- **Filtros** en Proyectos: por ciudad, por estado de obra y ordenamiento por
+  precio, con contador de resultados.
+- **Pestañas por tipo de vivienda**, cada una con su número de inmuebles.
+- **Menú de gestión desplegable** en la barra de navegación.
+- **Migas de pan** en el detalle del proyecto.
+- **Listado de las viviendas del proyecto** dentro de su propia ficha, que usa
+  el endpoint `/viviendas/proyecto/{id}` que la versión original no consumía.
+- **Esqueletos de carga** con la forma del contenido que va a llegar, en vez de
+  un texto de "Cargando...".
+- **Resumen del inventario** en administración: total, disponibles, reservadas
+  y valor acumulado.
+- **Secciones numeradas** (`01`, `02`, `03`) como recurso de orden.
+- **Formato local**: pesos colombianos con `Intl.NumberFormat` y traducción de
+  los enums a texto legible (`EN_CONSTRUCCION` → "En construcción").
+
+### Componentes
+
+La biblioteca de `ui.jsx` se reescribió por completo: `Seccion` (encabezado
+numerado), `Meta` (metadato), `Dato` (cifra grande), `Esqueleto`, `Aviso`,
+`Button`, `Input`, `Textarea` y `Select`, más las utilidades `precioCOP`,
+`legible` y `dosDigitos`.
+
+### Rendimiento
+
+La fotografía de portada se optimizó de **37 MB** (6720 × 4480) a **368 KB**
+(2000 × 1600). A la opacidad con la que se usa, la diferencia no es perceptible.
