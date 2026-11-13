@@ -33,20 +33,37 @@ export default function Inicio() {
   return (
     <div className="flex flex-col gap-28 lg:gap-40">
 
-      {/* ── Portada: titular desbordado, sin foto de fondo ────────── */}
-      <section>
-        <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2">
+      {/* ── Portada: la fotografía va detrás del titular, muy tenue ──
+           Se funde con el papel usando mezcla "multiply" y escala de
+           grises, para que no compita con el beige ni con el terracota.
+           Sangra a todo el ancho saliendo del contenedor con w-screen. ── */}
+      <section className="relative">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 -translate-x-1/2 w-screen
+                     -top-16 lg:-top-24 h-[34rem] lg:h-[42rem] overflow-hidden"
+        >
+          <img
+            src="/portada-arquitectura.jpg"
+            alt=""
+            className="w-full h-full object-cover opacity-[0.22] grayscale contrast-[1.15] mix-blend-multiply"
+          />
+          {/* Difuminado hacia el color de fondo, para que no corte en seco. */}
+          <div className="absolute inset-0 bg-gradient-to-b from-papel-100/60 via-transparent to-papel-100" />
+        </div>
+
+        <div className="relative flex flex-wrap items-baseline gap-x-6 gap-y-2">
           <span className="rotulo-acento">01</span>
           <span className="rotulo">— Constructora · Bogotá · Medellín · Cali</span>
         </div>
 
-        <h1 className="text-display-xl mt-10 text-tinta-900 font-semibold">
+        <h1 className="relative text-display-xl mt-10 text-tinta-900 font-semibold">
           Espacios
           <br />
           <span className="text-terracota-400">para habitar</span>
         </h1>
 
-        <div className="regla mt-14 pt-10 grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-10">
+        <div className="relative regla mt-14 pt-10 grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-10">
           <p className="lg:col-span-5 text-base leading-relaxed text-tinta-700">
             Diseñamos y construimos vivienda donde la arquitectura, la luz y el
             detalle trabajan a favor de quien la habita.
