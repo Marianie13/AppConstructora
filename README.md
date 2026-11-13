@@ -27,7 +27,6 @@ La aplicación tiene tres capas independientes que se comunican por HTTP:
 | `2_backend/` | API REST en Spring Boot 3.2 + Java 17 + JPA/Hibernate |
 | `3_frontend/` | Interfaz web original (React 18 + Vite + Tailwind CSS) |
 | `4_frontend_modificado/` | La misma interfaz con el rediseño propio (tema oscuro "Habita") |
-| `instalar_base_de_datos.sh` | Script que crea la base de datos de un solo paso |
 
 ---
 
@@ -153,33 +152,40 @@ sudo /usr/local/mysql/support-files/mysql.server start
 
 ### Paso 2 — Crear la base de datos
 
-```bash
-bash instalar_base_de_datos.sh
-```
-
-El script pide la clave de root de MySQL, crea la base `constructora_db`, las
-tablas, los datos de prueba, el usuario `constructora_app` que usa el backend y
-muestra las consultas de verificación.
-
-La clave de ese usuario se genera al azar en cada instalación y queda guardada
-únicamente en `2_backend/local.properties`, un archivo excluido del repositorio
-por `.gitignore`. El backend lo lee al arrancar. Por eso **no hay ninguna
-contraseña escrita en el código**.
-
-Si MySQL nunca ha funcionado en el equipo o se perdió la clave de root, usar en
-su lugar:
+Ejecutar los scripts en orden, desde la terminal:
 
 ```bash
-sudo bash reparar_mysql.sh
+cd 1_base_de_datos
+mysql --default-character-set=utf8mb4 -u root -p < 01_app_constructora_schema.sql
+mysql --default-character-set=utf8mb4 -u root -p < 02_app_constructora_datos.sql
+mysql --default-character-set=utf8mb4 -u root -p --table < 03_consultas_verificacion.sql
 ```
 
-Ese script restablece la clave de root y deja la base instalada en una sola
-pasada.
+> `--default-character-set=utf8mb4` es necesario: si el cliente de MySQL
+> está configurado en `latin1`, las tildes se guardan mal y en la
+> aplicación aparecería "BogotÃ¡" en vez de "Bogotá".
 
-> Alternativa manual (MySQL Workbench): ejecutar en orden
-> `01_app_constructora_schema.sql`, `02_app_constructora_datos.sql` y
-> `03_consultas_verificacion.sql`, y ajustar usuario y clave en
-> `2_backend/src/main/resources/application.properties`.
+Como alternativa, `04_constructora_db_export.sql` restaura la base completa
+—estructura y datos— de una sola vez:
+
+```bash
+mysql --default-character-set=utf8mb4 -u root -p < 1_base_de_datos/04_constructora_db_export.sql
+```
+
+Después hay que crear el usuario que usa el backend y registrar su clave en
+`2_backend/local.properties` (ese archivo no se versiona):
+
+```sql
+CREATE USER 'constructora_app'@'localhost' IDENTIFIED BY 'la_clave_que_elijas';
+GRANT ALL PRIVILEGES ON constructora_db.* TO 'constructora_app'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+```properties
+# 2_backend/local.properties
+DB_USER=constructora_app
+DB_PASSWORD=la_clave_que_elijas
+```
 
 ### Paso 3 — Arrancar el backend
 
